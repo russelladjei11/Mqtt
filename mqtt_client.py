@@ -1,17 +1,18 @@
+from gpiozero import MotionSensor
+from time import sleep
 import paho.mqtt.client as mqtt
+from time import sleep
 
-def on_message(client, userdata, message):
-	print message.payload
-
-
-def on_connect(client, userdata, flags, code):
+def motionsenor(client, userdata, flags, code):
 	print "connected: " + str(code)
-	client.subscribe("test/all")
+	client.publish("test/motion")
+def motionsensor():
+        print("motion detected ")
+        client.publish("test/motion", "detected")
 
 client = mqtt.Client()
-client.on_connect = on_connect
-client.on_connect = on_message
+client.on_connect = motionsensor
 
 
-client.connect("moorhouseassociates.com", 1883, 60)
+client.connect("broken.hivemq.com", 1883, 60)
 client.loop_forever
